@@ -1,0 +1,281 @@
+<head>
+<title>
+  <html>
+Song Channel
+</title>
+<meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <style type="text/css">
+    ul {
+    list-style: none;
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 0;
+}
+ul li {
+    padding: 5px 5px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+}
+.main_app {
+    margin: 0 auto;
+    max-width: 500px;
+}
+.main_app input {
+    display: inline-block;
+    width: 100%;
+    margin: 10px 0;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    height: 30px;
+}
+ul li button {
+    float: right;
+    background: #8c6d18;
+    border: none;
+    padding: 1px 15px;
+    border-radius: 2px;
+    color: #fff;
+}
+.main_app h1 {
+    margin: 10px 0;
+    text-align: center;
+    font-size: 25px;
+}
+.main_app input {
+    display: inline-block;
+    width: 100%;
+    margin: 10px 0;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    height: 30px;
+    outline: none;
+    padding: 0 10px;
+    position: relative;
+}
+.main_app input:before{
+  content: '\f002';
+  position:absolute;
+  left: 0;
+  width: 10px;
+  height: 10px;
+  color: #ccc;
+  font-family: FontAwesome;
+}
+
+button.btn {
+    text-align: center;
+    margin: 10px 0;
+    min-width: 200px;
+    border-radius: 15px;
+    font-size: 16px;
+}
+p.rating {
+    float: right;
+    padding: 0 10px;
+}
+.button_add {
+    text-align: center;
+    width: 100%;
+}
+.main_app {
+    margin: 0 auto;
+    max-width: 600px;
+    border: 1px solid;
+    padding: 0 50px;
+    margin-top: 10px;
+    background: rgba(204, 204, 204, 0.19);
+}
+ul li {
+    padding: 10px 10px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+}
+.modal-body input[type="submit"] {
+    max-width: 150px;
+    background: rgba(206, 26, 26, 0.78);
+    color: #fff;
+    height: 35px;
+    font-size: 16px;
+}
+.modal-body form {
+    margin: 0o auto;
+    max-width: 400px;
+    margin: 0 auto;
+    text-align: center;
+}
+.modal-body label {
+    width: 100%;
+    font-weight: 500;
+    margin: 0;
+}
+.pagination
+{
+  border-radius: 25px;
+      background: #73AD21;
+      padding: 10px;
+      width: 50px;
+      height: 50px;
+}
+.pagination:hover
+{
+  cursor: pointer;
+}
+  </style>
+</head>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+<script src="app.js"></script>
+
+<body ng-app="a" >
+<div class="main_app">
+  <h1>Music Tracks</h1>
+  <div ng-controller="playlist">
+  <input type="text" ng-model="a12">
+  <ul id="title_list">
+    <li ng-repeat="song in data.data.results | filter:a12">
+  {{song.title}}[{{song.genres[0].name}}]   {{song.rating}}
+  <button class="edittitle" id="{{song.id}}" data-name="{{song.title}} " ng-controller="edit_title_track" >Edit</button>
+
+   </li>
+  </ul>
+</div>
+
+<div class="row">
+
+<div class="pagination" id="lefttitle">Prev</div>
+<div class="pagination" id="righttitle">Next</div>
+</div>
+
+<div class="button_add">
+<button class="btn btn-danger" class="md-raised md-cornered" data-toggle="modal" data-target="#myModal">Add new track</button>
+</div>
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Add new track</h4>
+      </div>
+      <div class="modal-body">
+      <form ng-controller="form" onsubmit="return false" id="p1">
+        Name<input type="text" name="title" id="title">
+        Genre<input type="text" name="genre" id="genre">
+
+Ratings<input type="number" name="rating" id="rating">
+<input type="submit">
+      </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+</div>
+
+<div class="main_app">
+
+
+<h1>Track's Genre</h1>
+<div ng-controller="genre">
+<ul id="genre_list">
+  <li ng-repeat="genre in data.data.results" id="edit_{{genre.id}}" >
+{{genre.name}}
+<button class="editgenretitle" id="{{genre.id}}" data-name="{{genre.name}} " ng-controller="edit_genre" data-toggle="modal" data-target="#edit_genre_modal">Edit</button>
+  </li>
+</ul>
+</div>
+<div class="button_add">
+<button class="btn btn-primary" data-toggle="modal" data-target="#genre_modal">Add new Genre</button>
+<div class="row">
+
+<div class="pagination" id="leftgenre">Prev</div>
+<div class="pagination" id="rightgenre">Next</div>
+</div>
+</div>
+<div id="genre_modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Add new genre</h4>
+      </div>
+      <div class="modal-body">
+      <form ng-controller="form12" onsubmit="return false" id="genre_form">
+        Name<input type="text" name="genre" id="newgenre">
+        <input type="submit">
+      </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
+<div id="edit_genre_modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title text-center">Edit Genre</h4>
+      </div>
+      <div class="modal-body">
+      <form  onsubmit="return false" id="submit_new_genre">
+         <label class="text-left"> Track Name</label>
+        <input type="text" placeholder="type track name" name="genre_editable" id="genre_edit_text">
+<input type="hidden" name="genre_editable_id" id="genre_edit_id">
+        <input type="submit">
+      </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+<div id="edit_title_modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Edit title</h4>
+      </div>
+      <div class="modal-body">
+      <form  onsubmit="return false" id="submit_new_title">
+          <label class="text-left"> Track Name</label><input type="text" name="title_editable" id="title_edit_title">
+<input type="hidden" name="hidden_id" value="title_id" id="title_edit_id">
+<label class="text-left"> Genre</label><input type="text" name="genre_editable" id="genre_edit_title">
+
+<label class="text-left"> Ratings</label><input type="text" name="rating_editable" id="rating_edit_title">
+
+        <input type="submit" id="submit_new_songs">
+      </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+</div>
+</body>
+</html>
